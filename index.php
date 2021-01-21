@@ -27,6 +27,7 @@
         break;
     }
   }
+  if ($_SERVER['REQUEST_URI'] == '/igdb-test/' || $_SERVER['REQUEST_URI'] == '/igdb-test') $page = "/igdb-test-run.php";
   #------------------------------------------------------------------------------
   
   # Show the right page
