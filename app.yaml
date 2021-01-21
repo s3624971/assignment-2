@@ -1,0 +1,7 @@
+runtime: php72
+
+entrypoint: serve index.php
+
+handlers:
+- url: /css
+  static_dir: css

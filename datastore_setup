@@ -1,0 +1,16 @@
+<?php
+# Use APIs from Google 
+#------------------------------------------------------------------------------
+include 'vendor/autoload.php';
+use Google\Cloud\Datastore\DatastoreClient;
+putenv('DATASTORE_EMULATOR_HOST=localhost:8081');
+#------------------------------------------------------------------------------
+
+# Create datastore client instance
+#------------------------------------------------------------------------------
+$projectId = 'assignment-2-36249713375912';
+$datastore = new DatastoreClient([
+    'projectId' => $projectId
+]);
+#------------------------------------------------------------------------------
+?>
