@@ -3,7 +3,7 @@
 #------------------------------------------------------------------------------
 include 'vendor/autoload.php';
 use Google\Cloud\Datastore\DatastoreClient;
-putenv('DATASTORE_EMULATOR_HOST=localhost:8081');
+#putenv('DATASTORE_EMULATOR_HOST=localhost:8081');
 #------------------------------------------------------------------------------
 
 # Create datastore client instance

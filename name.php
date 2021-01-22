@@ -14,6 +14,7 @@
     } else { $rename_error = "User name cannot be empty."; }
   }
   #------------------------------------------------------------------------------
+  include 'random_headers_1.php';
 ?>
 <html>
   <head>
@@ -25,6 +26,11 @@
   </head>
   <body>
     <h1>Change Name</h1>
+    <hr>
+    <?php $headers_json = json_decode($header_imgs,true);
+    foreach ($headers_json as $key => $value) {
+      if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
+    } ?>
     <hr>
     <form action="/name/" method="post">
       <div><label for="name">New Name: </label><input type="text" id="name" name="name"></div>

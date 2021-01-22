@@ -19,6 +19,7 @@
     } else $pass_error = "User password is incorrect.";
   }
   #------------------------------------------------------------------------------
+  include 'random_headers_1.php';
 ?>
 <html>
   <head>
@@ -30,6 +31,11 @@
   </head>
   <body>
     <h1>Change Password</h1>
+    <hr>
+    <?php $headers_json = json_decode($header_imgs,true);
+    foreach ($headers_json as $key => $value) {
+      if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
+    } ?>
     <hr>
     <form action="/password/" method="post">
       <div><label for="password">Old Password: </label><input type="password" id="password" name="password"></div>

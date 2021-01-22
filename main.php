@@ -18,6 +18,7 @@
     }
   }
   #------------------------------------------------------------------------------
+  include 'random_headers_1.php';
 ?>
 <html>
   <head>
@@ -26,6 +27,11 @@
   </head>
   <body>
     <h1>Good Gaming</h1>
+    <hr>
+    <?php $headers_json = json_decode($header_imgs,true);
+    foreach ($headers_json as $key => $value) {
+      if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
+    } ?>
     <hr>
     <h2>Landing Page</h2>
     <p>Current User: <?php if (!is_null($user)) echo $user['name']; ?>.</p>
