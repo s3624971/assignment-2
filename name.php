@@ -14,7 +14,6 @@
     } else { $rename_error = "User name cannot be empty."; }
   }
   #------------------------------------------------------------------------------
-  include 'random_headers_1.php';
 ?>
 <html>
   <head>

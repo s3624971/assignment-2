@@ -1,24 +1,33 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '3fce878a41e9a62aed36f2c5ebed0e325b59d316',
     'name' => '__root__',
   ),
   'versions' => 
   array (
     '__root__' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '3fce878a41e9a62aed36f2c5ebed0e325b59d316',
+    ),
+    'brick/math' => 
+    array (
+      'pretty_version' => '0.9.2',
+      'version' => '0.9.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'dff976c2f3487d42c1db75a3b180e2b9f0e72ce0',
     ),
     'firebase/php-jwt' => 
     array (
@@ -38,6 +47,15 @@
       ),
       'reference' => 'c1503299c779af0cbc99b43788f75930988852cf',
     ),
+    'google/cloud-bigquery' => 
+    array (
+      'pretty_version' => 'v1.20.1',
+      'version' => '1.20.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'bd9333d02251880d200aec7079789826ef31f686',
+    ),
     'google/cloud-core' => 
     array (
       'pretty_version' => 'v1.40.0',
@@ -56,6 +74,15 @@
       ),
       'reference' => 'e5fc3d4c67dab9bb9cc735bfccf650f54db423df',
     ),
+    'google/cloud-storage' => 
+    array (
+      'pretty_version' => 'v1.23.1',
+      'version' => '1.23.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ca3817dae90d7d757381f3f63c9d7df58ca1416f',
+    ),
     'google/common-protos' => 
     array (
       'pretty_version' => '1.3',
@@ -64,6 +91,15 @@
       array (
       ),
       'reference' => '535f489ff1c3433c0ea64cd5aa0560f926949ac5',
+    ),
+    'google/crc32' => 
+    array (
+      'pretty_version' => 'v0.1.0',
+      'version' => '0.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a8525f0dea6fca1893e1bae2f6e804c5f7d007fb',
     ),
     'google/gax' => 
     array (
@@ -203,6 +239,31 @@
       ),
       'reference' => '120b605dfeb996808c31b6477290a714d356e822',
     ),
+    'ramsey/collection' => 
+    array (
+      'pretty_version' => '1.1.3',
+      'version' => '1.1.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '28a5c4ab2f5111db6a60b2b4ec84057e0f43b9c1',
+    ),
+    'ramsey/uuid' => 
+    array (
+      'pretty_version' => '4.1.1',
+      'version' => '4.1.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'cd4032040a750077205918c86049aa0f43d22947',
+    ),
+    'rhumsaa/uuid' => 
+    array (
+      'replaced' => 
+      array (
+        0 => '4.1.1',
+      ),
+    ),
     'rize/uri-template' => 
     array (
       'pretty_version' => '0.3.2',
@@ -211,6 +272,15 @@
       array (
       ),
       'reference' => '9e5fdd5c47147aa5adf7f760002ee591ed37b9ca',
+    ),
+    'symfony/polyfill-ctype' => 
+    array (
+      'pretty_version' => 'v1.22.0',
+      'version' => '1.22.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'c6c942b1ac76c82448322025e084cadc56048b4e',
     ),
   ),
 );

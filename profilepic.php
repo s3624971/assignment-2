@@ -1,12 +1,21 @@
 <?php
-session_start();
-echo "Username: " . $_SESSION['username'];
-$string = $_SESSION['username'];
+echo "Username: $_SESSION[id]<br>";
+$string = $_SESSION['id'];
 $string = str_replace(' ','',$string);
 ?>
 <html>
+<head>
+  <title>Change Profile Picture</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css?v=1">
+</head>
 <body>
-
+<h1>Change Profile Picture</h1>
+<hr>
+<?php $headers_json = json_decode($header_imgs,true);
+    foreach ($headers_json as $key => $value) {
+      if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
+    } ?>
+<hr>
 <a href="/main/">Main Page</a>
 </br>
 <form action="" method="POST" enctype="multipart/form-data">
@@ -14,7 +23,7 @@ $string = str_replace(' ','',$string);
          <input type="submit"/>
 </form>
 <br>
-<img src="https://storage.googleapis.com/trybucket-1/<?php echo $string?>.jpg" alt="profile">
+<img src="https://storage.googleapis.com/36249713375912-userpics/<?php echo $string?>.jpg" alt="profile">
 
 </body>
 </html>
@@ -28,17 +37,15 @@ require_once 'vendor/autoload.php';
 
 use Google\Cloud\Storage\StorageClient;
 
-$projectId = 'task1-s3375912';
-
 $storage = new StorageClient([
     'projectId' => $projectId
 ]);
 
-$source = $_FILES['image']['tmp_name'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+$source = $_FILES['image']['tmp_name'];
 $file = fopen($source, 'r');
-$bucket = $storage->bucket('trybucket-1');
+$bucket = $storage->bucket('36249713375912-userpics');
 $object = $bucket->upload($file, [
         'name' => $string.".jpg",
 		'metadata' => [

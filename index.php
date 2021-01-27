@@ -7,6 +7,7 @@
   # Include site setup
   #------------------------------------------------------------------------------
   include 'setup.php';
+  include 'random_headers_1.php';
   #------------------------------------------------------------------------------
   
   # Pick page to show based on url path, default to login page

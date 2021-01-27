@@ -19,7 +19,6 @@
     } else $pass_error = "User password is incorrect.";
   }
   #------------------------------------------------------------------------------
-  include 'random_headers_1.php';
 ?>
 <html>
   <head>
