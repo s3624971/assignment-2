@@ -178,6 +178,7 @@
         echo "    </div>\n";
       }
     ?>
+    <hr>
     <h2>Comments</h2>
     <?php
       $query = $datastore->query();
