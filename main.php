@@ -35,7 +35,9 @@
     <hr>
     <h2>Landing Page</h2>
     <p>Current User: <?php if (!is_null($user)) echo $user['name']; ?>.</p>
-    <p><a href="/name/">Change Name</a> <a href="/password/">Change Password</a></p>
+    <p><a href="/name/">Change Name</a> <a href="/password/">Change Password</a> <a href="/profilepic/">Change Profile Picture</a>
+	<a href="/searcharcades/">Search for Gaming Arcades in Melbourne</a>
+	</p>
     <form action="/" method="post" style="display:contents;">
       <input type="hidden" name="logout" id="logout" value="yes">
       <input type="submit" value="Log Out">

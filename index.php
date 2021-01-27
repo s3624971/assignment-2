@@ -22,6 +22,14 @@
       case "/password/":
         $page = "/password.php";
         break;
+	  case "/profilepic":
+      case "/profilepic/":
+        $page = "/profilepic.php";
+        break;
+	  case "/searcharcades":
+      case "/searcharcades/":
+        $page = "/searcharcades.php";
+        break;
       default:
         $page = "/main.php";
         break;
