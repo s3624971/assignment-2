@@ -23,7 +23,7 @@ $string = str_replace(' ','',$string);
          <input type="submit"/>
 </form>
 <br>
-<img src="https://storage.googleapis.com/36249713375912-userpics/<?php echo $string?>.jpg" alt="profile">
+<img src="https://storage.googleapis.com/36249713375912-userpics/<?php echo $string;?>.jpg" alt="profile">
 
 </body>
 </html>

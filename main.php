@@ -1,11 +1,14 @@
 <?php
   include 'datastore_setup';
   
-  # User log out when logout button pressed
-  #------------------------------------------------------------------------------
+  # Find User
+  # -----------------------------------------------------------------------------
   $key = $datastore->key('user', $_SESSION['id']);
   $user = $datastore->lookup($key);
+  #------------------------------------------------------------------------------
   
+  # User log out when logout button pressed
+  #------------------------------------------------------------------------------
   if (!empty($_POST)) {
     if (isset($_POST['logout']) && !is_null($_POST['logout'])) {
       # End session when logging out

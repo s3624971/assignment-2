@@ -32,6 +32,13 @@ form input[type="text"],
 form input[type="password"] { 
   border:1px dashed;
 }
+form textarea {
+  border:1px dashed;
+  width:100%;
+  min-width:calc(100% - 6px);
+  max-width:100%;
+  max-width:calc(100% - 6px);
+}
 a, form input[type="submit"] { 
   margin-top: 4px;
   background-color: white;

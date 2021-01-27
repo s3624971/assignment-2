@@ -4,3 +4,21 @@ indexes:
   - name: id
   - name: name
   - name: password
+- kind: user_comment
+  properties:
+  - name: id
+  - name: text
+  - name: commenter_id
+  - name: commentee_id
+- kind: game_comment
+  properties:
+  - name: id
+  - name: text
+  - name: commenter_id
+  - name: game_id
+- kind: char_comment
+  properties:
+  - name: id
+  - name: text
+  - name: commenter_id
+  - name: char_id
