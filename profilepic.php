@@ -1,5 +1,4 @@
 <?php
-echo "Username: $_SESSION[id]<br>";
 $string = $_SESSION['id'];
 $string = str_replace(' ','',$string);
 ?>
@@ -11,20 +10,17 @@ $string = str_replace(' ','',$string);
 <body>
 <h1>Change Profile Picture</h1>
 <hr>
-<?php $headers_json = json_decode($header_imgs,true);
-    foreach ($headers_json as $key => $value) {
-      if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
-    } ?>
-<hr>
-<a href="/main/">Main Page</a>
-</br>
+<?php include 'random_headers_2.php'; ?>
+<?php
+echo "<p>Username: $_SESSION[id]</p>"; ?>
 <form action="" method="POST" enctype="multipart/form-data">
          <input type="file" name="image" />
          <input type="submit"/>
 </form>
-<br>
 <img class='userpic' src="https://storage.googleapis.com/36249713375912-userpics/<?php echo $string;?>.jpg" alt="profile">
-
+<p>
+  <a href="/">Back</a>
+</p>
 </body>
 </html>
 

@@ -65,11 +65,7 @@
       }
     ?>
     <hr>
-    <?php $headers_json = json_decode($header_imgs,true);
-    foreach ($headers_json as $key => $value) {
-      if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
-    } ?>
-    <hr>
+    <?php include 'random_headers_2.php'; ?>
     <h2>Game Info</h2>
     <p><?php if (array_key_exists('cover',$game) && array_key_exists('url',$game['cover'])) { echo '<img src=\''.$game['cover']['url'].'\'>'; } ?></p>
     <?php 
@@ -184,20 +180,17 @@
       $query = $datastore->query();
       $query->kind('game_comment');
       $query->filter('game_id','=',$obj);
-      $query->order('id');
       
       $comments = $datastore->runQuery($query);
       
-      foreach ($comments as $c) {
-        $commenter_key = $datastore->key('user', $c['commenter_id']);
-        $commenter = $datastore->lookup($commenter_key);
-        
-        echo "<div class='comment'>\n";
-        if (!is_null($commenter)) {
-          echo 'Comment by: <a href=\'/user/'.$commenter['id']->pathEndIdentifier()."/'>$commenter[name]</a>\n";
+      try {
+        if (!is_null($comments->current())) {
+          foreach ($comments as $c) {
+            include 'comment.php';
+          }
         }
-        echo "<pre>$c[text]</pre>\n";
-        echo "</div>\n";
+      } catch (Exception $e) {
+        echo $e->getMessage();
       }
     ?>
     <hr>

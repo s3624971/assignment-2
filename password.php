@@ -31,11 +31,7 @@
   <body>
     <h1>Change Password</h1>
     <hr>
-    <?php $headers_json = json_decode($header_imgs,true);
-    foreach ($headers_json as $key => $value) {
-      if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
-    } ?>
-    <hr>
+    <?php include 'random_headers_2.php'; ?>
     <form action="/password/" method="post">
       <div><label for="password">Old Password: </label><input type="password" id="password" name="password"></div>
       <div><label for="password-new">New Password: </label><input type="password" id="password-new" name="password-new"></div>

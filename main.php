@@ -30,16 +30,11 @@
   <body>
     <h1>Good Gaming</h1>
     <hr>
-    <?php $headers_json = json_decode($header_imgs,true);
-    foreach ($headers_json as $key => $value) {
-      if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
-    } ?>
-    <hr>
+    <?php include 'random_headers_2.php'; ?>
     <h2>Landing Page</h2>
     <p>Current User: <?php if (!is_null($user)) echo "<a href=\"/user/$_SESSION[id]/\">$user[name]</a>"; ?>.</p>
-    <p><a href="/name/">Change Name</a> <a href="/password/">Change Password</a> <a href="/profilepic/">Change Profile Picture</a>
-	<a href="/searcharcades/">Search for Gaming Arcades in Melbourne</a> <a href="/users/">Users</a>
-	</p>
+    <p><a href="/name/">Change Name</a> <a href="/password/">Change Password</a> <a href="/profilepic/">Change Profile Picture</a></p>
+    <p><a href="/games/">Games</a> <a href="/searcharcades/">Search for Gaming Arcades in Melbourne</a> <a href="/users/">Users</a></p>
     <form action="/" method="post" style="display:contents;">
       <input type="hidden" name="logout" id="logout" value="yes">
       <input type="submit" value="Log Out">

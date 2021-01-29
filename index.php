@@ -28,6 +28,9 @@
     $make_comment = false;
     if (count($request_uri_segments) == 3 && $request_uri_segments[2] == '') {
       header('Location: /'.$object_name.'s/');
+    }
+    else if (count($request_uri_segments) == 3 && $request_uri_segments[1] == $object_name) { 
+      header('Location: '.$_SERVER['REQUEST_URI'].'/'); 
       die();
     }
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($request_uri_segments) > 3 && $request_uri_segments[3] == 'comment') {
@@ -83,8 +86,11 @@
     else if (strpos($_SERVER['REQUEST_URI'], '/game/') !== false && strpos($_SERVER['REQUEST_URI'], '/game/') == 0) {
       setup_object_page('game');
     }
+    else if (strpos($_SERVER['REQUEST_URI'], '/games') !== false && strpos($_SERVER['REQUEST_URI'], '/games') == 0) {
+      $page = '/games.php';
+    }
   }
-  if ($_SERVER['REQUEST_URI'] == '/igdb-test/' || $_SERVER['REQUEST_URI'] == '/igdb-test') $page = "/igdb-test-run.php";
+  #if ($_SERVER['REQUEST_URI'] == '/igdb-test/' || $_SERVER['REQUEST_URI'] == '/igdb-test') $page = "/igdb-test-run.php";
   #------------------------------------------------------------------------------
   
   # Show the right page

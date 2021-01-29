@@ -10,13 +10,7 @@ use Google\Cloud\BigQuery\BigQueryClient;
 <body>
 <h1>Search for Gaming Arcades in Melbourne</h1>
 <hr>
-<?php $headers_json = json_decode($header_imgs,true);
-foreach ($headers_json as $key => $value) {
-  if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
-} ?>
-<hr>
-<a href="/main/">Main Page</a>
-</br>
+<?php include 'random_headers_2.php'; ?>
 <form action="" method="post">
 <div><label for="search">Query: </label><input type="text" name="search" id="search"><br><small><label for="search">An arcade name to search for.</small></label></div>
 <div><input type="submit" value="Search"></div>
@@ -76,6 +70,8 @@ if ($queryResults->isComplete()) {
 }
 ?>
 </div>
-
+<p>
+  <a href="/">Back</a>
+</p>
 </body>
 </html>

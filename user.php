@@ -31,11 +31,7 @@
   <body>
     <h1><?php if (!$obj_fail) { echo $user_find['name']; } else { echo "USER NOT FOUND"; } ?></h1>
     <hr>
-    <?php $headers_json = json_decode($header_imgs,true);
-    foreach ($headers_json as $key => $value) {
-      if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
-    } ?>
-    <hr>
+    <?php include 'random_headers_2.php'; ?>
   <?php if (!$obj_fail) { ?>
     <h2>User Info</h2>
     <p><img class='userpic' src="https://storage.googleapis.com/36249713375912-userpics/<?php echo $user_find['id']->pathEndIdentifier(); ?>.jpg"></p>
@@ -46,20 +42,16 @@
       $query = $datastore->query();
       $query->kind('user_comment');
       $query->filter('commentee_id','=',$user_find['id']->pathEndIdentifier());
-      $query->order('id');
       
       $comments = $datastore->runQuery($query);
-      
-      foreach ($comments as $c) {
-        $commenter_key = $datastore->key('user', $c['commenter_id']);
-        $commenter = $datastore->lookup($commenter_key);
-        
-        echo "<div class='comment'>\n";
-        if (!is_null($commenter)) {
-          echo 'Comment by: <a href=\'/user/'.$commenter['id']->pathEndIdentifier()."/'>$commenter[name]</a>\n";
+      try {
+        if (!is_null($comments->current())) {
+          foreach ($comments as $c) {
+            include 'comment.php';
+          }
         }
-        echo "<pre>$c[text]</pre>\n";
-        echo "</div>\n";
+      } catch (Exception $e) {
+        echo $e->getMessage();
       }
     ?>
     <hr>

@@ -1,4 +1,5 @@
 <?php
+  use Google\Cloud\Storage\StorageClient;
   function log_in($id, $pw, $datastore) {
     # Find and authenticate user for logging in
     $login_key = $datastore->key('user', $id);
@@ -34,6 +35,28 @@
                   'password' => $_POST['s-password']
                 ]);
                 $datastore->insert($new_user);
+               # ADD DEFAULT PROFILE PICTURE
+               #------------------------------------------------------------------------------
+                $storage = new StorageClient([
+                    'projectId' => $projectId
+                ]);
+
+
+                if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                  $source = 'default-userpic.jpg';
+                  $file = fopen($source, 'r');
+                  $bucket = $storage->bucket('36249713375912-userpics');
+                  $object = $bucket->upload($file, [
+                          'name' => str_replace(' ','',$_POST['s-id']).".jpg",
+                      'metadata' => [
+                            'cacheControl' => 'public, max-age=15, no-transform',
+                          ]
+                      ]);
+
+                  $acl = $object->acl();
+                  $acl->update('allUsers', 'READER');
+                }
+               #------------------------------------------------------------------------------
                 $signup_error = log_in($_POST['s-id'], $_POST['s-password'], $datastore);
               } else $signup_error = "This User ID already exists. Try another one.";
             } else $signup_error = "Password cannot be empty.";
@@ -52,11 +75,7 @@
   <body>
     <h1>Good Gaming</h1>
     <hr>
-    <?php $headers_json = json_decode($header_imgs,true);
-    foreach ($headers_json as $key => $value) {
-      if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
-    } ?>
-    <hr>
+    <?php include 'random_headers_2.php'; ?>
     <h2>Log In</h2>
     <form action="/login/" method="post">
       <div><label for="id">User ID: </label><input type="text" id="id" name="id"></div>

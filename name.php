@@ -26,11 +26,7 @@
   <body>
     <h1>Change Name</h1>
     <hr>
-    <?php $headers_json = json_decode($header_imgs,true);
-    foreach ($headers_json as $key => $value) {
-      if ($key = 'cover') echo "<img src='".$value['cover']['url']."'>";
-    } ?>
-    <hr>
+    <?php include 'random_headers_2.php'; ?>
     <form action="/name/" method="post">
       <div><label for="name">New Name: </label><input type="text" id="name" name="name"></div>
       <div><input type="submit"></div>
