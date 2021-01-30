@@ -19,6 +19,8 @@
   <head>
     <title>Change Name</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css?v=1">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       form { max-width:234px; }
     </style>
@@ -31,6 +33,6 @@
       <div><label for="name">New Name: </label><input type="text" id="name" name="name"></div>
       <div><input type="submit"></div>
     </form><?php if (isset($rename_error)) echo "\n<p>$rename_error</p>"; ?>
-    <p><a href="/">Back</a></p>
+    <p><a href="/">Back to Home Page</a></p>
   </body>
 </html>

@@ -1,4 +1,6 @@
 <?php
+  # ACQUIRE GAME INFORMATION
+  # -------------------------------------------------------------------------------------------
   $client_id = 'gn969nmh00hd9nxtuawgxinki7rop7';
   $access_token = 'bu6p9wzid55nv8kslefy1d39akawil';
   $post_body = array(
@@ -27,7 +29,11 @@
   ]);
   $result = curl_exec($curl);
   $game = json_decode($result,true)[0];
-  if (is_null($game)) { $obj_fail = true; }
+  if (is_null($game) || !array_key_exists('name',$game)) { $obj_fail = true; }
+  # -------------------------------------------------------------------------------------------
+  
+  # ADD COMMENT IF ONE IS POSTED
+  # -------------------------------------------------------------------------------------------
   else if ($make_comment) {
     $new_comment_key = $datastore->key('game_comment');
     $new_comment_key_final = $datastore->allocateId($new_comment_key);
@@ -41,18 +47,72 @@
     header("Location: $obj_page_url");
     die();
   }
+  # -------------------------------------------------------------------------------------------
+  
+  # IF RATING IS SUBMITTED TRY TO SEND RATING TO DATASTORE
+  # -------------------------------------------------------------------------------------------
+  if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['stars'])) {
+    $new_rating_key = $datastore->key('game_rating', $_SESSION['id'].'||||'.$obj);
+    $old_rating = $datastore->lookup($new_rating_key);
+    $new_rating = $datastore->entity($new_rating_key, [
+      'game_id' => $obj,
+      'user_id' => $_SESSION['id'],
+      'rating' => $_POST['stars']
+    ]);
+    if (is_null($old_rating)) {
+      $datastore->insert($new_rating);
+    }
+    else {
+      $datastore->update($new_rating,array('allowOverwrite' => true));
+    }
+    header("Location: .");
+    die();
+  }
+  # -------------------------------------------------------------------------------------------
+  
+  # CALCULATE AVERAGE RATING
+  # -------------------------------------------------------------------------------------------
+  $avgnum = 0;
+  $count = 0;
+  $query = $datastore->query();
+  $query->kind('game_rating');
+  $query->filter('game_id', '=', $obj);
+  $results = $datastore->runQuery($query);
+  foreach ($results as $user) {
+      $avgnum += $user['rating'];
+      $count++;
+  }
+  if ($count > 0) $avgnum /= $count;
+  # -------------------------------------------------------------------------------------------
+  
+  # FUNCTION TO DISPLAY RATING
+  # -------------------------------------------------------------------------------------------
+  function show_stars($rating) {
+    $stars_result = "";
+    for ($i=1;$i<=5;$i++) {
+      $color='grey';
+      $alt = "";
+      if ($i <= $rating) $color = 'red';
+      if ($i == $rating) $alt = "$i stars out of 5";
+      $stars_result .= "<img src=\"/img/star-$color.png\" alt=\"$alt\" width=14 height=14>";
+    }
+    return $stars_result;
+  }
+  # -------------------------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
 <html>
   <head>
     <title><?php if (!$obj_fail) { echo $game['name']; } else { echo "GAME NOT FOUND"; } ?></title>
     <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
     <h1><?php if (!$obj_fail) { echo $game['name']; } else { echo "GAME NOT FOUND"; } ?></h1>
     <?php
       # DISPLAY ALTERNATIVE NAMES
-      if (array_key_exists('alternative_names',$game)) {
+      if (!$obj_fail && array_key_exists('alternative_names',$game)) {
         echo '<p>(AKA: ';
         $comma = '';
         foreach ($game['alternative_names'] as $aka) {
@@ -66,41 +126,44 @@
     ?>
     <hr>
     <?php include 'random_headers_2.php'; ?>
+    <?php if (!$obj_fail) { ?>
     <h2>Game Info</h2>
-    <p><?php if (array_key_exists('cover',$game) && array_key_exists('url',$game['cover'])) { echo '<img src=\''.$game['cover']['url'].'\'>'; } ?></p>
+    <p><?php if (array_key_exists('cover',$game) && array_key_exists('url',$game['cover'])) { echo '<img src=\''.$game['cover']['url'].'\' alt=\''.htmlspecialchars($game['name']).'\'>'; } ?></p>
     <?php 
+      # Function for showing a large block of text
+      # -------------------------------------------------------------------------------------------
+      function display_large_text($key,$array,$title) {
+        if (array_key_exists($key,$array)) {
+          echo "<h3>$title</h3>";
+          echo "<pre class='text'>$array[$key]</pre>";
+        }
+      }
+      # -------------------------------------------------------------------------------------------
+      
+      # Function for showing a sequence of small texts
+      # -------------------------------------------------------------------------------------------
+      function display_list_small_texts($key,$array,$title_str,$sub_key = 'name') {
+        if (array_key_exists($key,$array)) {
+          if (count($array[$key]) > 1) $title_str .= 's';
+          echo "<h3>$title_str</h3>\n    <p>";
+          $comma = '';
+          foreach ($array[$key] as $item) {
+            if (array_key_exists($sub_key,$item)) echo "$comma$item[$sub_key]";
+            $comma = ', ';
+          }
+          echo ".</p>\n";
+        }
+      }
+      # -------------------------------------------------------------------------------------------
+      
       # DISPLAY SUMMARY
-      if (array_key_exists('summary',$game)) {
-        echo '<h3>Summary</h3>';
-        echo "<pre class='text'>$game[summary]</pre>";
-      }
+      display_large_text('summary',$game,'Summary');
       # DISPLAY STORYLINE
-      if (array_key_exists('storyline',$game)) {
-        echo '<h3>Storyline</h3>';
-        echo "<pre class='text'>$game[storyline]</pre>";
-      }
+      display_large_text('storyline',$game,'Storyline');
       # DISPLAY GENRES
-      if (array_key_exists('genres',$game)) {
-        if (count($game['genres']) > 1) $gn_title = 'Genres'; else $gn_title = 'Genre';
-        echo "<h3>$gn_title</h3>\n    <p>";
-        $comma = '';
-        foreach ($game['genres'] as $genre) {
-          if (array_key_exists('name',$genre)) echo "$comma$genre[name]";
-          $comma = ', ';
-        }
-        echo ".</p>\n";
-      }
+      display_list_small_texts('genres',$game,'Genre');
       # DISPLAY GAME MODES
-      if (array_key_exists('game_modes',$game)) {
-        if (count($game['game_modes']) > 1) $gm_title = 'Game Modes'; else $gm_title = 'Game Mode';
-        echo "<h3>$gm_title</h3>\n    <p>";
-        $comma = '';
-        foreach ($game['game_modes'] as $mode) {
-          if (array_key_exists('name',$mode)) echo "$comma$mode[name]";
-          $comma = ', ';
-        }
-        echo ".</p>\n";
-      } 
+      display_list_small_texts('game_modes',$game,'Game Mode');
       # DISPLAY RELEASE DATE
       if (array_key_exists('first_release_date',$game)) {
         echo "    <h3>Release Date</h3>\n<p>    ".date('jS F, Y',$game['first_release_date'])."</p>\n";
@@ -118,18 +181,7 @@
               break;
           }
           if (array_key_exists('rating',$rating)) echo '<p>Rating: '.$game_age_ratings[$rating['rating']]."</p>\n";
-          if (array_key_exists('content_descriptions',$rating)) {
-            if (count($rating['content_descriptions']) > 1) $ct_title = 'Content Descriptions'; else $ct_title = 'Content Description';
-            echo "<p class='text'>$ct_title: ";
-            $comma = "";
-            foreach ($rating['content_descriptions'] as $ct) {
-              if (array_key_exists('description',$ct)) {
-                echo "$comma$ct[description]";
-                $comma = ', ';
-              }
-            }
-            echo '.</p>';
-          }
+          display_list_small_texts('content_descriptions',$rating,'Content Description','description');
           if (array_key_exists('synopsis',$rating)) echo "<pre class='text'>Synopsis: $rating[synopsis]</pre>\n";
         }
         if (array_key_exists('rating_cover_url',$game['age_ratings'])) {
@@ -144,7 +196,6 @@
       if (array_key_exists('game_engines',$game)) {
         if (count($game['game_engines']) > 1) $gm_title = 'Game Engines'; else $gm_title = 'Game Engine';
         echo "    <h3>$gm_title</h3>\n";
-        $comma = '';
         foreach ($game['game_engines'] as $engine) {
           if (array_key_exists('name',$engine)) echo "    <h4>$engine[name]</h4>\n";
           if (array_key_exists('description',$engine)) echo "    <p>$engine[description]</p>\n";
@@ -155,9 +206,8 @@
       if (array_key_exists('websites',$game)) {
         if (count($game['websites']) > 1) $wb_title = 'Websites'; else $wb_title = 'Website';
         echo "    <h3>$wb_title</h3>\n";
-        $comma = '';
         foreach ($game['websites'] as $website) {
-          if (array_key_exists('url',$website)) echo "    <p><a href=\"$website[url]\">$comma$website[url]</a></p>\n";
+          if (array_key_exists('url',$website)) echo "    <p><a href=\"$website[url]\">$website[url]</a></p>\n";
         }
       } 
       # DISPLAY FRANCHISE
@@ -169,11 +219,73 @@
         echo "    <h3>Artworks</h3>\n";
         echo "    <div class='border'>\n";
         foreach ($game['artworks'] as $art) {
-          echo '      <img src=\''.$art['url'].'\'>'."\n";
+          echo '      <img src=\''.$art['url'].'\' alt=\'\'>'."\n";
         }
         echo "    </div>\n";
       }
     ?>
+    <hr>
+    <h2>Ratings</h2>
+    <?php 
+      $query = $datastore->query();
+      $query->kind('game_rating');
+      $query->filter('game_id','=',$obj);
+      
+      $ratings = $datastore->runQuery($query);
+      
+      try {
+        if (!is_null($ratings->current())) {
+          echo "<span class=\"rating-box\">
+                  <span class=\"rating-box-main\">
+                    <span>Average Rating</span>
+                    <span>: </span>
+                    <span>".show_stars(round($avgnum)).'</span>
+                  </span>
+                  <div style="clear:both;"></div>
+                </span><br>';
+          
+          foreach ($ratings as $r) {
+            $user_name = "";
+            $user_key = $datastore->key('user', $r['user_id']);
+            $user = $datastore->lookup($user_key);
+            if (!is_null($user)) $user_name = $user['name'];
+            echo "<span class=\"rating-box\">
+                 ".'<span class="rating-box-picture"><a href=\'/user/'.$r['user_id']."/'><img src=\"https://storage.googleapis.com/thumbnail-assignment-2/".$r['user_id'].".jpg\" alt=\"".htmlspecialchars($user_name)."\"></a></span>
+                    <span class=\"rating-box-main\">
+                      <span>Rating by: <a href=\"/user/$r[user_id]/\">$user_name</a></span>
+                      <span>: </span>
+                      <span>".show_stars($r['rating']).'</span>
+                    </span>
+                    <div style="clear:both;"></div>
+                  </span><br>';
+          }
+        }
+      } catch (Exception $e) {
+        echo $e->getMessage();
+      }
+    ?>
+    <hr>
+    <h3>Rate Game</h2>
+    <form action="" method="post" class="game-rate" style="max-width:160px;">
+      <label for="stars">Rating (1 to 5)</label><br>
+      <span class="star-box">
+        <input type="radio" class="star" id="star-1" name="stars" value="1">
+        <label class="star-add" for="star-1">1</label>
+        
+        <input type="radio" class="star" id="star-2" name="stars" value="2">
+        <label class="star-add" for="star-2">2</label>
+        
+        <input type="radio" class="star" id="star-3" name="stars" value="3">
+        <label class="star-add" for="star-3">3</label>
+        
+        <input type="radio" class="star" id="star-4" name="stars" value="4">
+        <label class="star-add" for="star-4">4</label>
+        
+        <input type="radio" class="star" id="star-5" name="stars" value="5" checked="checked">
+        <label class="star-add" for="star-5">5</label>
+      </span>
+      <input style="display:block;margin-left:auto;" type="submit" value="Submit Rating">
+    </form>
     <hr>
     <h2>Comments</h2>
     <?php
@@ -200,37 +312,12 @@
       <textarea name="comment" id="comment"></textarea>
       <input type="submit" value="Post">
     </form>
-    <?php
-     # echo "<div class='results-grid'>";
-     # echo read_out_json_result(json_decode($result,true),2);
-     # echo "</div>";
-     # curl_close($curl);
-      
-      
-      function read_out_json_result($json, $nest_level) {
-        $result = "";
-        if (empty($json[0])) $result .= "<dl style='box-sizing:border-box;border:1px dashed;margin:2px;padding:4px;'>";
-        else {
-          $result .= "<ol style='display:contents'>";
-        }
-        if (!empty($json['name'])) $result .= "<h$nest_level>$json[name]</h$nest_level>"; else $nest_level--;
-        if (!empty($json['mug_shot']['url'])) $result .= '<img src="'.$json['mug_shot']['url'].'">';
-        if (!empty($json['cover']['url'])) $result .= '<img src="'.$json['cover']['url'].'">';
-        foreach ($json as $key => $value) {
-          $v = $value;
-          if (is_array($value)) $v = read_out_json_result($value,$nest_level+1);
-          else if (is_array(json_decode($value,true))) $v = read_out_json_result(json_decode($value,true),$nest_level+1);
-          else if ($key == 'url') $v = "<img src='$value'>";
-          if (empty($json[0])) $result .= "<dt>$key</dt><dd>$v</dd>";
-          else $result .= "<li style='display:contents;'>$v</li>";
-        }if (empty($json[0])) $result .= "</dl>"; else $result .= "</ol>";
-        return $result;
-      }
-    ?>
-    
     <hr>
     <p><small>Game data provided by <a href="//igdb.com">IGDB</a></small></p>
     <hr>
-    <p><a href="/">Back</a></p>
+    <?php } else { ?>
+    <p>Use the link below to go back to the main page.</p>
+    <?php } ?>
+    <p><a href="/">Back to Home Page</a></p>
   </body>
 </html>

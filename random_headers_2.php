@@ -4,8 +4,8 @@
   foreach ($headers_json as $header) {
     $link_to_game = array('','');
     if (isset($_SESSION['id']) && !is_null($_SESSION['id'])) $link_to_game = array("<a style=\"display:contents;\" href=\"/game/$header[id]/\">",'</a>');
-    echo "$link_to_game[0]<img src='".$header['cover']['url']."'>$link_to_game[1]";
+    echo "$link_to_game[0]<img src='".$header['cover']['url']."' alt='".htmlspecialchars($header['name'])."'>$link_to_game[1]";
   } 
-  echo "\n</div>";
+  echo "\n    </div>\n";
 ?>
-<hr>
+    <hr>

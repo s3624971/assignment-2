@@ -53,6 +53,8 @@
 <head>
   <title><?php if (isset($_GET['search'])) echo "Searching for: $_GET[search]"; else echo 'Games'; ?></title>
   <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
   <h1><?php if (isset($_GET['search'])) echo "Searching for: $_GET[search]"; else echo 'Games'; ?></h1>
@@ -72,7 +74,7 @@
     foreach(json_decode($result,true) as $game) {
       if (array_key_exists('id',$game)) {
         $cover_html = "";
-        if (array_key_exists('cover', $game) && array_key_exists('url',$game['cover'])) $cover_html = "<img src=\"".$game['cover']['url']."\"><br>"; else $cover_html = '<span class="no-img"> </span>';
+        if (array_key_exists('cover', $game) && array_key_exists('url',$game['cover'])) $cover_html = "<img src=\"".$game['cover']['url']."\" alt=\"".htmlspecialchars($game['name'])."\"><br>"; else $cover_html = '<span class="no-img"> </span>';
         echo "<a class=\"flex-link\" href=\"/game/$game[id]/\">$cover_html$game[name]</a> ";
       }
     }
@@ -82,6 +84,6 @@
   <hr>
   <p><small>Game data provided by <a href="//igdb.com">IGDB</a></small></p>
   <hr>
-  <a href="/">Back</a>
+  <a href="/">Back to Home Page</a>
 </body>
 </html>

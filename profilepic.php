@@ -6,6 +6,8 @@ $string = str_replace(' ','',$string);
 <head>
   <title>Change Profile Picture</title>
   <link rel="stylesheet" type="text/css" href="/css/style.css?v=1">
+  <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <h1>Change Profile Picture</h1>
@@ -19,7 +21,7 @@ echo "<p>Username: $_SESSION[id]</p>"; ?>
 </form>
 <img class='userpic' src="https://storage.googleapis.com/36249713375912-userpics/<?php echo $string;?>.jpg" alt="profile">
 <p>
-  <a href="/">Back</a>
+  <a href="/">Back to Home Page</a>
 </p>
 </body>
 </html>

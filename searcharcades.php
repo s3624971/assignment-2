@@ -6,6 +6,8 @@ use Google\Cloud\BigQuery\BigQueryClient;
 <head>
   <title>Search for Gaming Arcades in Melbourne</title>
   <link rel="stylesheet" type="text/css" href="/css/style.css?v=1">
+  <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <h1>Search for Gaming Arcades in Melbourne</h1>
@@ -71,7 +73,7 @@ if ($queryResults->isComplete()) {
 ?>
 </div>
 <p>
-  <a href="/">Back</a>
+  <a href="/">Back to Home Page</a>
 </p>
 </body>
 </html>

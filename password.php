@@ -24,6 +24,8 @@
   <head>
     <title>Change Password</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css?v=1">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       form { max-width:260px; }
     </style>
@@ -37,6 +39,6 @@
       <div><label for="password-new">New Password: </label><input type="password" id="password-new" name="password-new"></div>
       <div><input type="submit"></div>
     </form><?php if (isset($pass_error)) echo "\n<p>$pass_error</p>"; ?>
-    <p><a href="/">Back</a></p>
+    <p><a href="/">Back to Home Page</a></p>
   </body>
 </html>

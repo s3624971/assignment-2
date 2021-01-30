@@ -26,6 +26,8 @@
   <head>
     <title>Good Gaming</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css?v=1">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
     <h1>Good Gaming</h1>

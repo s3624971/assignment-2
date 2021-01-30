@@ -5,3 +5,5 @@ entrypoint: serve index.php
 handlers:
 - url: /css
   static_dir: css
+- url: /img
+  static_dir: img

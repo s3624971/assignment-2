@@ -27,6 +27,8 @@
   <head>
     <title><?php if (!$obj_fail) { echo $user_find['name']; } else { echo "USER NOT FOUND"; } ?></title>
     <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
     <h1><?php if (!$obj_fail) { echo $user_find['name']; } else { echo "USER NOT FOUND"; } ?></h1>
@@ -65,6 +67,6 @@
   <?php } else { ?>
     <p>Use the link below to go back to the main page.</p>
   <?php } ?>
-    <p><a href="/">Back</a></p>
+    <p><a href="/">Back to Home Page</a></p>
   </body>
 </html>

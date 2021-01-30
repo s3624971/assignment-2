@@ -107,6 +107,17 @@ pre {
   margin-left:auto;
   margin-right:auto;
 }
+.comment-picture-link {
+  float:left;
+  margin:0;
+  margin-right:4px;
+  padding:1px;
+}
+.comment-picture-link img {
+  width:60px;
+  height:60px;
+  display:block;
+}
 .games-results {
   display:grid;
   grid-template-columns:1fr 1fr 1fr 1fr 1fr;
@@ -150,5 +161,100 @@ pre {
   bottom: 0;
   padding-top: calc(50% - 0.5em);
   font-weight: bold;
-  color: darkgray;
+  color: darkgray; 
+}
+
+/* This is really just a check for if @supports is supported. */
+@supports (max-width:1000px) { 
+  .star-box {
+    display:block;
+    position:relative;
+    height:26px;
+    max-width: 140px;
+    margin-left: auto;
+  }
+  .star {
+    visibility: hidden;
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+  }
+  .star-add {
+    content: url(/img/star-red.png);
+    display: inline-block;
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    visibility: visible;
+    cursor:pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  #star-2,#star-2+.star-add { left:28px; }
+  #star-3,#star-3+.star-add { left:56px; }
+  #star-4,#star-4+.star-add { left:84px; }
+  #star-5,#star-5+.star-add { left:112px; }
+  .star:hover+.star-add {
+    content: url(/img/star-red-h.png);
+  }
+  .star:checked ~ .star:not(:checked)+.star-add {
+    content: url(/img/star-grey.png);
+  }
+  .star:checked ~ .star:not(:checked):hover+.star-add {
+    content: url(/img/star-grey-h.png);
+  }
+}
+.rating-box {
+  display:block;
+  border:1px dashed;
+  width:max-content;
+  max-width:100%;
+  max-width:calc(100% - 20px);
+  margin-left:auto;
+  margin-right:auto;
+}
+.rating-box > span {
+  display:block;
+}
+.rating-box > .rating-box-picture:first-child {
+  float:left;
+  margin:0;
+  border-right:1px dashed;
+}
+.rating-box-picture img {
+  width:60px;
+  height:60px;
+  display:block;
+}
+.rating-box > .rating-box-picture:first-child a {
+  padding:1px;
+  padding-right:1px;
+  margin:0;
+  display:block;
+  border:0;
+  height:100%;
+}
+.rating-box > .rating-box-main:nth-child(2) {
+  float:right;
+}
+.rating-box > span > span {
+  display:block;
+}
+.rating-box > .rating-box-main > span:first-child {
+  border-bottom:1px dashed;
+  padding:4px;
+}
+.rating-box > .rating-box-main > span:nth-child(2) {
+  visibility:hidden;
+  position:absolute;
+  pointer-events:none;
+}
+.rating-box > .rating-box-main > span:last-child {
+  padding:4px;
 }

@@ -16,9 +16,8 @@ indexes:
   - name: id
   - name: text
   - name: commenter_id
-- kind: char_comment
+- kind: game_rating
   properties:
-  - name: char_id
-  - name: id
-  - name: text
-  - name: commenter_id
+    - name: game_id
+    - name: user_id
+    - name: rating

@@ -8,9 +8,15 @@
   #------------------------------------------------------------------------------
   include 'setup.php';
   include 'random_headers_1.php';
+  #------------------------------------------------------------------------------
+  
+  # Game age ratings from IGDB
+  #------------------------------------------------------------------------------
   $game_age_ratings = array("", "Three", "Seven", "Twelve", "Sixteen", "Eighteen", "RP", "EC", "E", "E10", "T", "M", "AO");
   #------------------------------------------------------------------------------
   
+  # Function for setting up a user or game page
+  #------------------------------------------------------------------------------
   $obj;
   $obj_fail;
   $obj_page_url;
@@ -47,6 +53,7 @@
       $make_comment = false;
     }
   }
+  #------------------------------------------------------------------------------
   
   # Pick page to show based on url path, default to login page
   #------------------------------------------------------------------------------
@@ -72,6 +79,11 @@
       case '/user':
         header('Location: /users/');
         die();
+        break;
+      case '/game':
+        header('Location: /games/');
+        die();
+        break;
       case '/users':
       case '/users/':
         $page = "/users.php";
@@ -90,7 +102,6 @@
       $page = '/games.php';
     }
   }
-  #if ($_SERVER['REQUEST_URI'] == '/igdb-test/' || $_SERVER['REQUEST_URI'] == '/igdb-test') $page = "/igdb-test-run.php";
   #------------------------------------------------------------------------------
   
   # Show the right page

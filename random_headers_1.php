@@ -10,7 +10,7 @@ $random_nums = "(";
   
   $post_body = array(
     'endpoint'=>'games',
-    'fields'=>'cover.url',
+    'fields'=>'name,cover.url',
     'limit'=>'10',
     'where'=>'cover.url != null & id = '.$random_nums
   );
